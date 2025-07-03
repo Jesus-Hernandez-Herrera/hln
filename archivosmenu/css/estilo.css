@@ -1,0 +1,427 @@
+/*Style de Modales*/
+.modalito {
+  z-index: 9999 !important;
+  background-color: #585a589e;
+}
+
+/*para el drag drop inicia*/
+.conteinergrupos {
+  min-width: 150px;
+  max-width: 400px;
+  display: inline-block;
+  margin: 5px;
+  align-items: center;
+  text-align: center;
+  background-color: #c9f0d6;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin: 10px;
+  width: 300px;
+  box-shadow: 0px 10px 20px 0px #0000003b;
+}
+
+/* Estilo para cada lista */
+.sortable {
+  width: 300px;
+  min-height: 200px;
+  background: #75B48A;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px #ccc;
+  overflow-y: auto;
+}
+
+/* Estilo para cada elemento */
+.sortable li {
+  display: block;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 10px;
+  cursor: move;
+  user-select: none;
+  transition: all 0.3s;
+}
+
+/* Estilo para el elemento arrastrado */
+.sortable li.ui-sortable-helper {
+  background: #f5f5f5;
+  box-shadow: 2px 2px 5px #ccc;
+}
+
+/* Estilo para la zona de drop */
+.sortable.ui-sortable-placeholder {
+  background: #e0e0e0;
+  border: 1px dashed #999;
+  border-radius: 5px;
+}
+
+/*para el drag drop cierre*/
+
+/* Example modal label */
+#exampleModalLabel {
+  color: #ffffff;
+  text-align: center;
+}
+
+.divider-text {
+  position: relative;
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.divider-text span {
+  padding: 7px;
+  font-size: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.divider-text:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  border-bottom: 2px solid #358366;
+  top: 55%;
+  left: 0;
+  z-index: 1;
+}
+
+
+/*Boton de cerrar sesión*/
+.profile-details {
+  position: absolute;
+  bottom: 0;
+  width: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  transition: all 0.5s ease;
+  margin-left: -180px;
+  background: #3b9563;
+  border-radius: 10px;
+  box-shadow: 0 2px 2px 0;
+
+}
+
+.profile-details img {
+  width: 25px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 16px;
+  margin: 0 14px 0 12px;
+  transition: all 0.5s ease;
+}
+
+.nombreUsuario {
+  margin-right: 30px;
+  color: white;
+}
+
+/*Submenu*/
+.submenu {
+  margin: 27px auto 0;
+  position: relative;
+  width: 535px;
+  height: 50px;
+  background-color: #3b9563;
+  border-radius: 8px;
+  font-size: 0;
+}
+
+.submenu .btnsubmenu {
+  list-style: 70px;
+  height: 100%;
+  font-size: 13px;
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  text-decoration: none;
+  text-transform: uppercase;
+  text-align: center;
+  color: white;
+  cursor: pointer;
+  margin-left: 3%;
+}
+
+.submenu .animation {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  z-index: 0;
+  transition: all .5s ease 0s;
+  border-radius: 8px;
+}
+
+.btnsubmenu:nth-child(1) {
+  width: 100px;
+  color: white;
+}
+
+.btnsubmenu:nth-child(2) {
+  width: 110px;
+  color: white;
+}
+
+.btnsubmenu:nth-child(3) {
+  width: 100px;
+  color: white;
+}
+
+.btnsubmenu:nth-child(4) {
+  width: 160px;
+  color: white;
+}
+
+.btnsubmenu:nth-child(5) {
+  width: 120px;
+  color: white;
+}
+
+.submenu .start-home,
+.btnsubmenu:nth-child(1):hover~.animation {
+  width: 130px;
+  left: 0px;
+  background-color: #60a35e;
+
+}
+
+.submenu .start-about,
+.btnsubmenu:nth-child(2):hover~.animation {
+  width: 128px;
+  left: 125px;
+  background-color: #60a35e;
+}
+
+.submenu .start-blog,
+.btnsubmenu:nth-child(3):hover~.animation {
+  width: 120px;
+  left: 255px;
+  background-color: #60a35e;
+}
+
+.submenu .start-portafolio,
+.btnsubmenu:nth-child(4):hover~.animation {
+  width: 140px;
+  left: 394px;
+  background-color: #60a35e;
+}
+
+/*Cards de listados de usuario*/
+.linksopciones {
+  border-radius: 5px;
+  background: #6EC78C;
+  color: #000;
+  padding: 8px 10px;
+  margin: 5px;
+  font-weight: bold;
+  border: #a91111;
+  cursor: pointer;
+  border: 1px solid;
+}
+
+.linksopciones:hover {
+  border-radius: 5px;
+  color: black;
+  background-color: #B0EFC5;
+  padding: 8px 10px;
+  margin: 5px;
+  font-weight: bold;
+  border: #a91111;
+  cursor: pointer;
+  border: solid 1px black;
+  transition: 1s ease-out;
+}
+
+.linksopcionestit {
+  border-radius: 5px;
+  color: #000;
+  padding: 8px 10px;
+  margin: 5px;
+  font-weight: bold;
+  border: #a91111;
+  cursor: pointer;
+}
+
+.card .card-body a {
+  display: inline-block;
+  width: 249px;
+  text-align: center;
+  color: white;
+}
+
+/*TODOS los cards*/
+.container-card {
+  display: inline-block;
+}
+
+/* Card */
+.container-wide .card{
+box-shadow:0px 0px 16px 0px #212529;
+padding-left:0px;
+margin-left:44px;
+transform:translatex(340px) translatey(30px);
+margin-top:62px;
+
+}
+/* Heading */
+.card .card-body h5{
+transform:translatex(13px) translatey(-16px);
+}
+
+
+/* Image */
+.container-card .card img{
+transform:translatex(15px) translatey(-17px);
+min-height:214px;
+}
+
+/* Image */
+.container-wide .container-card .card img{
+width:94% !important;
+}
+
+
+/*NUevo style para card*/
+.card {
+width: 190px;
+height: 254px;
+border-radius: 20px;
+background: #f5f5f5;
+position: relative;
+padding: 1.8rem;
+border: 2px solid #c3c6ce;
+transition: 0.5s ease-out;
+overflow: visible;
+}
+
+.card-details {
+color: black;
+height: 100%;
+gap: .5em;
+display: grid;
+place-content: center;
+}
+
+.card-button {
+transform: translate(-60%, 125%);
+width: 60%;
+border-radius: 1rem;
+border: none;
+background-color: #3b9563;
+color: #fff;
+font-size: 1rem;
+padding: .5rem 1rem;
+position: absolute;
+left: 50%;
+/* bottom: 0;
+opacity: 0;
+transition: 0.3s ease-out; */
+}
+
+.text-body {
+color: rgb(134, 134, 134);
+}
+
+/*Text*/
+.text-title {
+font-size: 1.5em;
+font-weight: bold;
+}
+
+/*Hover*/
+/* .card:hover {
+border-color: #3b9563;
+box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
+}
+
+.card:hover .card-button {
+transform: translate(-50%, 50%);
+opacity: 1;
+} */
+/* Centred block */
+.contact-section .form-group center {
+  /*position: relative;
+  top: 49px;*/
+  transform: translatex(0px) translatey(0px);
+}
+
+/* Heading */
+.blog_details center h1 {
+  position: relative;
+  top: -3px;
+}
+
+/* Card */
+.contact-section center .card {
+  display: inline-block;
+  transform: translatex(-67px) translatey(126px);
+  margin-left: 130px;
+}
+
+/* Card */
+.contact-section center .card {
+  box-shadow: 0px 0px 15px 0px #212529;
+  cursor: pointer;
+  perspective: 0px;
+}
+
+@media (max-width:1399px) {
+
+  /* Card */
+  .contact-section center .card {
+    display: inline-block;
+    transform: translatex(-90px) translatey(17px) !important;
+  }
+
+}
+
+@media (max-width:1199px) {
+
+  /* Card */
+  .contact-section center .card {
+    display: inline-block;
+    transform: translatex(-75px) translatey(36px) !important;
+  }
+
+}
+
+@media (max-width:991px) {
+
+  /* Card */
+  .contact-section center .card {
+    display: inline-block;
+    transform: translatex(-73px) translatey(5px) !important;
+  }
+
+}
+
+@media (max-width:767px) {
+
+  /* Card */
+  .contact-section center .card {
+    display: inline-block;
+    transform: translatex(-73px) translatey(-11px) !important;
+  }
+
+}
+@media (min-width:1400px){
+
+  /* Card */
+  .contact-section center .card{
+   display:inline-block;
+   transform:translatex(-51px) translatey(-35px);
+  }
+  #modalForm .modal-xl .modal-content .modal-header .btn-close{
+    background-color:#ffffff !important;
+    color:#fa5a5a !important;
+   }
+
+ }
+
+

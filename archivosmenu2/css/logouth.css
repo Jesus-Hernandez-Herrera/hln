@@ -1,0 +1,171 @@
+#navbarCollapse>.nav-item .dropdown-menu {
+    transform: translatex(-179px) translatey(23px);
+    min-height: 479px;
+    width: 362px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(33, 37, 41, 0.49);
+    border-color:#3c8264;
+    border-width:2px;
+}
+   
+/* Heading */
+#navbarCollapse .InfoUsu h5 {
+    width: 44%;
+    position: relative;
+    left: 110px;
+    font-size: 18px;
+}
+
+.containergfondoperfil {
+    background-color: rgba(11, 18, 238, 0.39);
+    min-height: 112px;
+    border-radius: 5px;
+    width: 92%;
+    transform: translatex(15px) translatey(0px);
+    box-shadow: 0px 0px 5px 0px rgba(33, 37, 41, 0.49);
+}
+
+.fotoperfilusu {
+    text-align: center;
+}
+
+.fotoperfilusu img {
+    border-radius: 50%;
+    border-color:#dde3e3;
+    border-width:4px;
+    border-style:solid;
+}
+   
+.infoUsu {
+    text-align: center;
+    transform: translatey(10px);
+}
+
+.infoUsu h3 {
+    font-size: 18px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.infoUsu p {
+    font-size: 14px;
+}
+
+/* Bttnmi perfil */
+.InfoUsu .infoUsu .bttnmiPerfil {
+    min-height: 49px;
+    /* background-color: #3b9563; */
+    width: 90%;
+    transform: translatex(16px) translatey(4px);
+    border: 1px 4px 4px solid #3b9563;
+    border-radius: 10px;
+}
+
+/* Link */
+.infoUsu .bttnmiPerfil a {
+    height: 40px;
+    width: 78%;
+    transform: translatex(41px) translatey(-5px);
+    box-shadow: none;
+}
+
+.btnmiperfil {
+    background: transparent;
+    position: relative;
+    padding: 5px 15px;
+    display: flex;
+    align-items: center;
+    font-size: 17px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid rgb(60, 130, 100);
+    border-radius: 25px;
+    outline: none;
+    overflow: hidden;
+    color: rgb(60, 130, 100);
+    transition: color 0.3s 0.1s ease-out;
+    text-align: center;
+}
+
+.btnmiperfil span {
+    margin: 10px;
+}
+
+.btnmiperfil::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    content: '';
+    border-radius: 50%;
+    display: block;
+    width: 20em;
+    height: 20em;
+    left: -5em;
+    text-align: center;
+    transition: box-shadow 0.5s ease-out;
+    z-index: -1;
+}
+
+.btnmiperfil:hover {
+    color: #fff;
+    border: 1px solid rgb(60, 130, 100);
+}
+
+.btnmiperfil:hover::before {
+    box-shadow: inset 0 0 0 10em rgb(60, 130, 100);
+}
+
+.btnlogOut{
+    background: transparent;
+    position: relative;
+    padding: 5px 15px;
+    display: flex;
+    align-items: center;
+    font-size: 17px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid rgb(255,0,0);
+    border-radius: 25px;
+    outline: none;
+    overflow: hidden;
+    color: rgb(255,0,0);
+    transition: color 0.3s 0.1s ease-out;
+    text-align: center;
+  }
+  
+  .btnlogOut span {
+    margin: 10px;
+  }
+  
+  .btnlogOut::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    content: '';
+    border-radius: 50%;
+    display: block;
+    width: 20em;
+    height: 20em;
+    left: -5em;
+    text-align: center;
+    transition: box-shadow 0.5s ease-out;
+    z-index: -1;
+  }
+  
+  .btnlogOut:hover {
+    color: #fff;
+    border: 1px solid rgb(255,0,0);
+  }
+  
+  .btnlogOut:hover::before {
+    box-shadow: inset 0 0 0 10em rgb(255, 0, 0);
+  }

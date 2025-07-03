@@ -1,0 +1,478 @@
+        @charset "US-ASCII";
+        @import "http://fonts.googleapis.com/css?family=Lato:300,400,700";
+
+        /* * {
+            color: #444;
+            font-family: Lato;
+            font-size: 16px;
+            font-weight: 300;
+        } */
+
+        ::-webkit-input-placeholder {
+            font-style: italic;
+        }
+
+        :-moz-placeholder {
+            font-style: italic;
+        }
+
+        ::-moz-placeholder {
+            font-style: italic;
+        }
+
+        :-ms-input-placeholder {
+            font-style: italic;
+        }
+
+        body {
+            float: left;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+
+        strong {
+            font-weight: 700;
+        }
+
+        a {
+            cursor: pointer;
+            display: block;
+            text-decoration: none;
+        }
+
+        a.button {
+            border-radius: 5px 5px 5px 5px;
+            -webkit-border-radius: 5px 5px 5px 5px;
+            -moz-border-radius: 5px 5px 5px 5px;
+            text-align: center;
+            font-size: 21px;
+            font-weight: 400;
+            padding: 12px 0;
+            width: 100%;
+            display: table;
+            background: #E51F04;
+            background: -moz-linear-gradient(top, #E51F04 0%, #A60000 100%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #E51F04), color-stop(100%, #A60000));
+            background: -webkit-linear-gradient(top, #E51F04 0%, #A60000 100%);
+            background: -o-linear-gradient(top, #E51F04 0%, #A60000 100%);
+            background: -ms-linear-gradient(top, #E51F04 0%, #A60000 100%);
+            background: linear-gradient(top, #E51F04 0%, #A60000 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E51F04', endColorstr='#A60000', GradientType=0);
+        }
+
+        a.button i {
+            margin-right: 10px;
+        }
+
+        a.button.disabled {
+            background: none repeat scroll 0 0 #ccc;
+            cursor: default;
+        }
+
+        .bkng-tb-cntnt {
+            float: left;
+            width: 800px;
+        }
+
+        .bkng-tb-cntnt a.button {
+            color: #fff;
+            float: right;
+            font-size: 18px;
+            padding: 5px 20px;
+            width: auto;
+        }
+
+        .bkng-tb-cntnt a.button.o {
+            background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+            color: #e51f04;
+            border: 1px solid #e51f04;
+        }
+
+        .bkng-tb-cntnt a.button i {
+            color: #fff;
+        }
+
+        .bkng-tb-cntnt a.button.o i {
+            color: #e51f04;
+        }
+
+        .bkng-tb-cntnt a.button.right i {
+            float: right;
+            margin: 2px 0 0 10px;
+        }
+
+        .bkng-tb-cntnt a.button.left {
+            float: left;
+        }
+
+        .bkng-tb-cntnt a.button.disabled.o {
+            border-color: #ccc;
+            color: #ccc;
+        }
+
+        .bkng-tb-cntnt a.button.disabled.o i {
+            color: #ccc;
+        }
+
+        .pymnts {
+            float: left;
+            width: 800px;
+        }
+
+        .pymnts * {
+            float: left;
+        }
+
+        .sctn-row {
+            margin-bottom: 35px;
+            width: 800px;
+        }
+
+        .sctn-col {
+            width: 375px;
+        }
+
+        .sctn-col.l {
+            width: 425px;
+        }
+
+        .sctn-col input {
+            border: 1px solid #ccc;
+            font-size: 18px;
+            line-height: 24px;
+            padding: 10px 12px;
+            width: 333px;
+        }
+
+        .sctn-col label {
+            font-size: 24px;
+            line-height: 24px;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        .sctn-col.x3 {
+            width: 300px;
+        }
+
+        .sctn-col.x3.last {
+            width: 200px;
+        }
+
+        .sctn-col.x3 input {
+            width: 210px;
+        }
+
+        .sctn-col.x3 a {
+            float: right;
+        }
+
+        .pymnts-sctn {
+            width: 800px;
+        }
+
+        .pymnt-itm {
+            margin: 0 0 3px;
+            width: 800px;
+        }
+
+        .pymnt-itm h2 {
+            background-color: #e9e9e9;
+            font-size: 24px;
+            line-height: 24px;
+            margin: 0;
+            padding: 28px 0 28px 20px;
+            width: 780px;
+        }
+
+        .pymnt-itm.active h2 {
+            cursor: default;
+        }
+
+        .pymnt-itm div.pymnt-cntnt {
+            display: none;
+        }
+
+        .pymnt-itm.active div.pymnt-cntnt {
+            background-color: #f7f7f7;
+            display: block;
+            padding: 0 0 30px;
+            width: 100%;
+        }
+
+        .pymnt-cntnt div.sctn-row {
+            margin: 20px 30px 0;
+            width: 740px;
+        }
+
+        .pymnt-cntnt div.sctn-row div.sctn-col {
+            width: 345px;
+        }
+
+        .pymnt-cntnt div.sctn-row div.sctn-col.l {
+            width: 395px;
+        }
+
+        .pymnt-cntnt div.sctn-row div.sctn-col input {
+            width: 303px;
+        }
+
+        .pymnt-cntnt div.sctn-row div.sctn-col.half {
+            width: 155px;
+        }
+
+        .pymnt-cntnt div.sctn-row div.sctn-col.half.l {
+            float: left;
+            width: 190px;
+        }
+
+        .pymnt-cntnt div.sctn-row div.sctn-col.half input {
+            width: 113px;
+        }
+
+        .pymnt-cntnt div.sctn-row div.sctn-col.cvv {
+            background-image: url("../../imagenes/cvv.png");
+            background-position: 156px center;
+            background-repeat: no-repeat;
+            padding-bottom: 30px;
+        }
+
+        .pymnt-cntnt div.sctn-row div.sctn-col.cvv div.sctn-col.half input {
+            width: 110px;
+        }
+
+        .openpay {
+            float: right;
+            height: 60px;
+            margin: 10px 30px 0 0;
+            width: 435px;
+        }
+
+        .openpay div.logo {
+            background-image: url("../../imagenes/openpay.png");
+            background-position: left bottom;
+            background-repeat: no-repeat;
+            border-right: 1px solid #ccc;
+            font-size: 12px;
+            font-weight: 400;
+            height: 45px;
+            padding: 15px 20px 0 0;
+        }
+
+        .openpay div.shield {
+            background-image: url("../../imagenes/security.png");
+            background-position: left bottom;
+            background-repeat: no-repeat;
+            font-size: 12px;
+            font-weight: 400;
+            margin-left: 20px;
+            padding: 20px 0 0 40px;
+            width: 200px;
+        }
+
+        .card-expl {
+            float: left;
+            height: 80px;
+            margin: 20px 0;
+            width: 800px;
+        }
+
+        .card-expl div {
+            background-position: left 45px;
+            background-repeat: no-repeat;
+            height: 70px;
+            padding-top: 10px;
+        }
+
+        .card-expl div.debit {
+            background-image: url("../../imagenes/cards2.png");
+            margin-left: 20px;
+            width: 540px;
+        }
+
+        .card-expl div.credit {
+            background-image: url("../../imagenes/cards1.png");
+            border-right: 1px solid #ccc;
+            margin-left: 30px;
+            width: 209px;
+        }
+
+        .card-expl h4 {
+            font-weight: 400;
+            margin: 0;
+        }
+
+
+        /*Apartado de descripcion del pago*/
+
+        .section_our_solution .row {
+            align-items: center;
+        }
+
+        .our_solution_category {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        .our_solution_category .solution_cards_box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .solution_cards_box .solution_card {
+            flex: 0 50%;
+            background: #fff;
+            box-shadow: 0 2px 4px 0 rgba(136, 144, 195, 0.2),
+                0 5px 15px 0 rgba(37, 44, 97, 0.15);
+            border-radius: 15px;
+            margin: 8px;
+            padding: 10px 15px;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            min-height: 400px;
+            transition: 0.7s;
+        }
+
+        .solution_cards_box .solution_card:hover {
+            background: #70C094;
+            color: #fff;
+            transform: scale(1.1);
+            z-index: 9;
+        }
+
+        .solution_cards_box .solution_card:hover::before {
+            background: rgb(85 108 214 / 10%);
+        }
+
+        .solution_cards_box .solution_card:hover .solu_title h3,
+        .solution_cards_box .solution_card:hover .solu_description p {
+            color: #fff;
+        }
+
+        .solution_cards_box .solution_card:before {
+            content: "";
+            position: absolute;
+            background: rgb(85 108 214 / 5%);
+            width: 170px;
+            height: 400px;
+            z-index: -1;
+            transform: rotate(42deg);
+            right: -56px;
+            top: -23px;
+            border-radius: 35px;
+        }
+
+        .solution_cards_box .solution_card:hover .solu_description button {
+            background: #fff !important;
+            color: #309df0;
+        }
+
+        .solution_card .so_top_icon {}
+
+        .solution_card .solu_title div {
+            color: #212121;
+            font-size: 1.3rem;
+            margin-top: 13px;
+            margin-bottom: 13px;
+        }
+
+        .solution_card .solu_description p {
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+
+        .solution_card .solu_description button {
+            border: 0;
+            border-radius: 15px;
+            background: linear-gradient(140deg,
+                    #42c3ca 0%,
+                    #42c3ca 50%,
+                    #42c3cac7 75%) !important;
+            color: #fff;
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 5px 16px;
+        }
+
+        .our_solution_content div {
+            text-transform: capitalize;
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+
+        .our_solution_content p {}
+
+        .hover_color_bubble {
+            position: absolute;
+            background: rgb(54 81 207 / 15%);
+            width: 100rem;
+            height: 100rem;
+            left: 0;
+            right: 0;
+            z-index: -1;
+            top: 16rem;
+            border-radius: 50%;
+            transform: rotate(-36deg);
+            left: -18rem;
+            transition: 0.7s;
+        }
+
+        .solution_cards_box .solution_card:hover .hover_color_bubble {
+            top: 0rem;
+        }
+
+        .solution_cards_box .solution_card .so_top_icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #fff;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .solution_cards_box .solution_card .so_top_icon img {
+            width: 40px;
+            height: 50px;
+            object-fit: contain;
+        }
+
+        /*start media query*/
+        @media screen and (min-width: 320px) {
+            .sol_card_top_3 {
+                position: relative;
+                top: 0;
+            }
+
+            .our_solution_category {
+                width: 100%;
+                margin: 0 auto;
+            }
+
+            .our_solution_category .solution_cards_box {
+                flex: auto;
+            }
+        }
+
+        @media only screen and (min-width: 768px) {
+            .our_solution_category .solution_cards_box {
+                flex: 1;
+            }
+        }
+
+        @media only screen and (min-width: 1024px) {
+            .sol_card_top_3 {
+                position: relative;
+                top: -3rem;
+            }
+
+            .our_solution_category {
+                width: 80%;
+                margin: 0 auto;
+            }
+        }

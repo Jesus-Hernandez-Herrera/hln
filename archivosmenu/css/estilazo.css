@@ -1,0 +1,445 @@
+.conteinerprincipal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.conteinergrupos {
+  min-width: 150px;
+  max-width: 400px;
+  display: inline-block;
+  margin: 5px;
+  align-items: center;
+  text-align: center;
+  background-color: #c9f0d6;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin: 10px;
+  width: 300px;
+  box-shadow: 0px 10px 20px 0px #0000003b;
+}
+
+.eliminar-grupo {
+  background: #E0464B;
+  color: white;
+  border-radius: 5px;
+  border: 10px;
+margin-top: 10px;
+margin-bottom: 10px;
+width: 90px;
+}
+
+.eliminar-grupo:hover {
+  background: #EB666A;
+}
+
+
+.sortable {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  min-height: 50px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f8f8f8;
+}
+
+.sortable li {
+  margin: 5px;
+  padding: 5px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: move;
+}
+
+.sortable li.placeholder {
+  position: relative;
+  background-color: transparent;
+  border: none;
+  height: auto;
+  min-height: 50px;
+  z-index: 999;
+}
+
+.sortable li.placeholder:before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 2px;
+  top: -2px;
+  left: 0;
+  background: red;
+}
+
+.sortable li.placeholder:after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background: red;
+}
+
+.sortable .dropzone {
+  position: relative;
+  height: 10px;
+  margin: 5px 0;
+  background-color: #f5f5f5;
+  border: 2px dashed #ccc;
+  border-radius: 5px;
+}
+
+.sortable .dropzone:before {
+  position: absolute;
+  content: "Suelta aquí";
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  font-size: 18px;
+  color: #ccc;
+}
+
+#nuevaListaForm {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  float: right;
+  margin-right: 20px;
+}
+
+#nuevaListaForm input[type=text] {
+  border-radius: 5px;
+  font-size: 1.2rem;
+  padding: 10px;
+  width: 300px;
+  
+}
+
+/* Estilo para la lista de listas */
+#listas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
+  background-color: #444;
+  color: #fff;
+  font-size: 1.5rem;
+  padding: 10px;
+  text-align: center;
+}
+
+/* Estilo para cada lista */
+.sortable {
+  width: 300px;
+  min-height: 200px;
+  background: #75B48A;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px #ccc;
+  overflow-y: auto;
+}
+
+/* Estilo para cada elemento */
+.sortable li {
+  display: block;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 10px;
+  cursor: move;
+  user-select: none;
+  transition: all 0.3s;
+}
+
+/* Estilo para el elemento arrastrado */
+.sortable li.ui-sortable-helper {
+  background: #f5f5f5;
+  box-shadow: 2px 2px 5px #ccc;
+}
+
+/* Estilo para la zona de drop */
+.sortable.ui-sortable-placeholder {
+  background: #e0e0e0;
+  border: 1px dashed #999;
+  border-radius: 5px;
+}
+
+/* Estilo para el botón de agregar lista */
+#agregarLista {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+/* Estilo para el botón de agregar lista al pasar el ratón sobre él */
+#agregarLista:hover {
+  background: #3e8e41;
+}
+
+/* Estilo para el formulario de agregar lista */
+#agregarListaForm {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px #ccc;
+  z-index: 1000;
+}
+
+/* Estilo para el botón de cerrar el formulario de agregar lista */
+#cerrarAgregarLista {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 20px;
+  color: #aaa;
+  cursor: pointer;
+}
+
+/* Estilo para el input de nombre de lista en el formulario de agregar lista */
+#nombreLista {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Estilo para el botón de guardar lista en el formulario de agregar lista */
+#guardarLista {
+  display: block;
+  margin: 10px auto 0;
+  padding: 10px 20px;
+  background: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px #ddd;
+}
+
+h1 {
+  margin-top: 0;
+  font-size: 30px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.add-list {
+  margin-bottom: 20px;
+}
+
+.add-list button {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.add-list button:hover {
+  background-color: #2980b9;
+}
+
+.list-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.list-wrapper .list {
+  width: calc(33.33333% - 20px);
+  margin: 10px;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 0 10px #ddd;
+}
+
+.list-wrapper .list h2 {
+  font-size: 24px;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.list-wrapper .list .item {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #f2f2f2;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: move;
+}
+
+.list-wrapper .list .item:hover {
+  background-color: #e0e0e0;
+}
+
+.list-wrapper .list .item:active {
+  background-color: #ccc;
+}
+
+.list-wrapper .list .item.ui-draggable-dragging {
+  opacity: 0.5;
+  background-color: #fff;
+}
+
+.list-wrapper .list .no-items {
+  font-style: italic;
+  color: #999;
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  .list-wrapper .list {
+    width: calc(50% - 20px);
+  }
+}
+
+@media (max-width: 479px) {
+  .list-wrapper .list {
+    width: 100%;
+  }
+}
+
+ul.sortable {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: -webkit-fill-available;
+}
+
+/* Utilizar unidades relativas */
+h2.listas {
+  background: #3b9563;
+  font-size: 2rem;
+}
+
+ul.sortable li {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 10px;
+  text-align: center;
+}
+
+/* Utilizar media queries */
+@media (max-width: 768px) {
+  h2.listas {
+    font-size: 1.5rem;
+  }
+
+  ul.sortable li {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+  }
+}
+
+/* Utilizar un diseño flexible */
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.listas {
+  flex-basis: 100%;
+}
+
+.sortable {
+  flex-basis: 50%;
+  margin-right: 1rem;
+}
+
+/* Hacer que los elementos sean legibles */
+body {
+  font-size: 16px;
+}
+
+/* Estilos para pantallas pequeñas */
+@media only screen and (max-width: 768px) {
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  form {
+    max-width: 80%;
+  }
+}
+
+/* Estilos para pantallas grandes */
+@media only screen and (min-width: 769px) {
+  .sortable {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 20px;
+  }
+
+  form {
+    max-width: 400px;
+  }
+}
+
+#nuevaListaForm button[type=submit] {
+  background-color: #3b9563;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin-left: 10px;
+  padding: 10px;
+}
