@@ -1,5 +1,5 @@
 <?php
-include "conexion.php";
+include "bdd.php";
 $data = json_decode(file_get_contents("php://input"), true);
 
 $id_tirada = $data['id_tirada'];

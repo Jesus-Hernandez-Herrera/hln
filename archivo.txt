@@ -1,0 +1,10 @@
+1 .- porque tengo tiradas "En curso" y no aparecen en las tiradas en curso y las que terminaron no me las muestra siquiera
+
+2 .- puedes ayudarme tambien a quitar las pestañas (Registrar Tirada y Tiradas en Proceso) quiero todo en la misma ventana, el formulario de registro de tirada  a su derecha el listado de tiradas en curso y abajo las tiradas que ya terminaron con su informacion de lo producido en la tirada.
+
+ 
+
+
+
+
+claude: https://claude.ai/chat/e4df62c0-b4a0-4f14-baf6-a42933522469

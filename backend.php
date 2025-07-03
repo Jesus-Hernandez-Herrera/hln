@@ -1,6 +1,6 @@
 <?php
 // =============================================
-// BACKEND PHP (Guardar como backend.php)
+// BACKEND PHP CORREGIDO
 // =============================================
 
 // Configuración de la base de datos
@@ -51,6 +51,10 @@ switch ($action) {
         listarTiradas($mysqli);
         break;
 
+    case 'listar_tiradas_finalizadas':
+        listarTiradasFinalizadas($mysqli);
+        break;
+
     case 'obtener_tirada':
         obtenerTirada($mysqli);
         break;
@@ -92,7 +96,31 @@ function cargarMaquinas($mysqli)
 
 function cargarOperadores($mysqli)
 {
-    $query = "SELECT id, nombre, appaterno, apmaterno FROM usuario WHERE rol = 'operador' AND status_usuario = 'activo'";
+    // Primero verificar si la tabla tirada_operadores existe y tiene datos
+    $query_check = "SELECT COUNT(*) as count FROM tirada_operadores";
+    $result_check = $mysqli->query($query_check);
+    $has_data = $result_check->fetch_assoc()['count'] > 0;
+
+    if ($has_data) {
+        // Excluir operadores que ya están en tiradas en curso
+        $query = "SELECT u.id, u.nombre, u.appaterno, u.apmaterno 
+                  FROM usuario u 
+                  WHERE u.rol = 'operador' 
+                  AND u.status_usuario = 'activo'
+                  AND u.id NOT IN (
+                      SELECT DISTINCT to_op.id_operador 
+                      FROM tirada_operadores to_op 
+                      INNER JOIN tirada t ON to_op.id_tirada = t.id_tirada 
+                      WHERE t.estatus_tirada = 'En curso'
+                  )";
+    } else {
+        // Si no hay datos en tirada_operadores, mostrar todos los operadores activos
+        $query = "SELECT u.id, u.nombre, u.appaterno, u.apmaterno 
+                  FROM usuario u 
+                  WHERE u.rol = 'operador' 
+                  AND u.status_usuario = 'activo'";
+    }
+
     $result = $mysqli->query($query);
 
     $operadores = [];
@@ -137,15 +165,6 @@ function cargarOperadoresEspecificos($mysqli)
 
 function registrarTirada($mysqli)
 {
-    // Verificar que no se esté enviando el formulario por segunda vez
-    session_start();
-    $form_token = $_POST['form_token'] ?? uniqid();
-
-    if (isset($_SESSION['last_form_token']) && $_SESSION['last_form_token'] === $form_token) {
-        echo json_encode(['success' => false, 'message' => 'Esta tirada ya ha sido registrada.']);
-        return;
-    }
-
     $mysqli->begin_transaction();
 
     try {
@@ -167,6 +186,24 @@ function registrarTirada($mysqli)
             throw new Exception('La máquina seleccionada no está disponible.');
         }
 
+        // Validar que los operadores estén disponibles (solo si hay tiradas existentes)
+        if (count($operadores) > 0) {
+            $placeholders = str_repeat('?,', count($operadores) - 1) . '?';
+            $query_operadores = "SELECT COUNT(*) as ocupados FROM tirada_operadores to_op 
+                                INNER JOIN tirada t ON to_op.id_tirada = t.id_tirada 
+                                WHERE to_op.id_operador IN ($placeholders) 
+                                AND t.estatus_tirada = 'En curso'";
+            $stmt = $mysqli->prepare($query_operadores);
+            $stmt->bind_param(str_repeat('i', count($operadores)), ...$operadores);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $ocupados = $result->fetch_assoc()['ocupados'];
+
+            if ($ocupados > 0) {
+                throw new Exception('Algunos operadores ya están asignados a otras tiradas en curso.');
+            }
+        }
+
         // Insertar la tirada
         $query_tirada = "INSERT INTO tirada (fecha_inicio, fecha_final, estatus_tirada, id_responsable, id_maquina) VALUES (?, ?, 'En curso', ?, ?)";
         $stmt = $mysqli->prepare($query_tirada);
@@ -176,12 +213,14 @@ function registrarTirada($mysqli)
         $id_tirada = $mysqli->insert_id;
 
         // Insertar operadores de la tirada
-        $query_operadores = "INSERT INTO tirada_operadores (id_tirada, id_operador) VALUES (?, ?)";
-        $stmt = $mysqli->prepare($query_operadores);
+        if (count($operadores) > 0) {
+            $query_operadores = "INSERT INTO tirada_operadores (id_tirada, id_operador) VALUES (?, ?)";
+            $stmt = $mysqli->prepare($query_operadores);
 
-        foreach ($operadores as $id_operador) {
-            $stmt->bind_param('ii', $id_tirada, $id_operador);
-            $stmt->execute();
+            foreach ($operadores as $id_operador) {
+                $stmt->bind_param('ii', $id_tirada, $id_operador);
+                $stmt->execute();
+            }
         }
 
         // Actualizar estado de la máquina
@@ -191,10 +230,6 @@ function registrarTirada($mysqli)
         $stmt->execute();
 
         $mysqli->commit();
-
-        // Guardar token para evitar duplicados
-        $_SESSION['last_form_token'] = $form_token;
-
         echo json_encode(['success' => true, 'message' => 'Tirada registrada exitosamente.']);
 
     } catch (Exception $e) {
@@ -205,25 +240,87 @@ function registrarTirada($mysqli)
 
 function listarTiradas($mysqli)
 {
+    // Consulta simplificada y más robusta
     $query = "SELECT 
                 t.id_tirada,
                 DATE_FORMAT(t.fecha_inicio, '%d/%m/%Y %H:%i') as fecha_inicio,
                 DATE_FORMAT(t.fecha_final, '%d/%m/%Y %H:%i') as fecha_final,
                 t.estatus_tirada,
-                CONCAT(u.nombre, ' ', u.appaterno, ' ', u.apmaterno) as responsable,
-                CONCAT(m.nombre_maquina, ' - ', m.modelo) as maquina,
-                GROUP_CONCAT(CONCAT(op.nombre, ' ', op.appaterno) SEPARATOR ', ') as operadores,
-                GROUP_CONCAT(op.id SEPARATOR ',') as operadores_ids
+                CONCAT(COALESCE(u.nombre, ''), ' ', COALESCE(u.appaterno, ''), ' ', COALESCE(u.apmaterno, '')) as responsable,
+                CONCAT(COALESCE(m.nombre_maquina, ''), ' - ', COALESCE(m.modelo, '')) as maquina,
+                COALESCE(op_list.operadores, 'Sin operadores') as operadores,
+                COALESCE(op_list.operadores_ids, '') as operadores_ids
               FROM tirada t
               LEFT JOIN usuario u ON t.id_responsable = u.id
               LEFT JOIN maquina m ON t.id_maquina = m.id_maquina
-              LEFT JOIN tirada_operadores to_op ON t.id_tirada = to_op.id_tirada
-              LEFT JOIN usuario op ON to_op.id_operador = op.id
+              LEFT JOIN (
+                  SELECT 
+                      to_op.id_tirada,
+                      GROUP_CONCAT(CONCAT(op.nombre, ' ', COALESCE(op.appaterno, '')) SEPARATOR ', ') as operadores,
+                      GROUP_CONCAT(op.id SEPARATOR ',') as operadores_ids
+                  FROM tirada_operadores to_op 
+                  LEFT JOIN usuario op ON to_op.id_operador = op.id
+                  GROUP BY to_op.id_tirada
+              ) op_list ON t.id_tirada = op_list.id_tirada
               WHERE t.estatus_tirada = 'En curso'
-              GROUP BY t.id_tirada
               ORDER BY t.fecha_inicio DESC";
 
     $result = $mysqli->query($query);
+
+    if (!$result) {
+        echo json_encode(['data' => [], 'error' => 'Error en la consulta: ' . $mysqli->error]);
+        return;
+    }
+
+    $tiradas = [];
+    while ($row = $result->fetch_assoc()) {
+        $tiradas[] = $row;
+    }
+
+    echo json_encode(['data' => $tiradas]);
+}
+
+function listarTiradasFinalizadas($mysqli)
+{
+    $query = "SELECT 
+                t.id_tirada,
+                DATE_FORMAT(t.fecha_inicio, '%d/%m/%Y %H:%i') as fecha_inicio,
+                DATE_FORMAT(t.fecha_final, '%d/%m/%Y %H:%i') as fecha_final,
+                t.estatus_tirada,
+                CONCAT(COALESCE(u.nombre, ''), ' ', COALESCE(u.appaterno, ''), ' ', COALESCE(u.apmaterno, '')) as responsable,
+                CONCAT(COALESCE(m.nombre_maquina, ''), ' - ', COALESCE(m.modelo, '')) as maquina,
+                COALESCE(op_list.operadores, 'Sin operadores') as operadores,
+                COALESCE(prod_list.productos_producidos, 'Sin producción registrada') as productos_producidos,
+                COALESCE(prod_list.total_producido, 0) as total_producido
+              FROM tirada t
+              LEFT JOIN usuario u ON t.id_responsable = u.id
+              LEFT JOIN maquina m ON t.id_maquina = m.id_maquina
+              LEFT JOIN (
+                  SELECT 
+                      to_op.id_tirada,
+                      GROUP_CONCAT(CONCAT(op.nombre, ' ', COALESCE(op.appaterno, '')) SEPARATOR ', ') as operadores
+                  FROM tirada_operadores to_op 
+                  LEFT JOIN usuario op ON to_op.id_operador = op.id
+                  GROUP BY to_op.id_tirada
+              ) op_list ON t.id_tirada = op_list.id_tirada
+              LEFT JOIN (
+                  SELECT 
+                      td.id_tirada,
+                      GROUP_CONCAT(CONCAT(p.nombre_producto, ': ', td.cantidad_tirada_detalle, ' unidades') SEPARATOR ', ') as productos_producidos,
+                      SUM(td.cantidad_tirada_detalle) as total_producido
+                  FROM tirada_detalle td 
+                  LEFT JOIN producto p ON td.id_producto = p.id_producto
+                  GROUP BY td.id_tirada
+              ) prod_list ON t.id_tirada = prod_list.id_tirada
+              WHERE t.estatus_tirada = 'Finalizada'
+              ORDER BY t.fecha_inicio DESC";
+
+    $result = $mysqli->query($query);
+
+    if (!$result) {
+        echo json_encode(['data' => [], 'error' => 'Error en la consulta: ' . $mysqli->error]);
+        return;
+    }
 
     $tiradas = [];
     while ($row = $result->fetch_assoc()) {
@@ -242,17 +339,23 @@ function obtenerTirada($mysqli)
                 t.fecha_inicio,
                 t.fecha_final,
                 t.estatus_tirada,
-                CONCAT(u.nombre, ' ', u.appaterno, ' ', u.apmaterno) as responsable,
-                CONCAT(m.nombre_maquina, ' - ', m.modelo) as maquina,
-                GROUP_CONCAT(CONCAT(op.nombre, ' ', op.appaterno) SEPARATOR ', ') as operadores,
-                GROUP_CONCAT(op.id SEPARATOR ',') as operadores_ids
+                CONCAT(COALESCE(u.nombre, ''), ' ', COALESCE(u.appaterno, ''), ' ', COALESCE(u.apmaterno, '')) as responsable,
+                CONCAT(COALESCE(m.nombre_maquina, ''), ' - ', COALESCE(m.modelo, '')) as maquina,
+                COALESCE(op_list.operadores, 'Sin operadores') as operadores,
+                COALESCE(op_list.operadores_ids, '') as operadores_ids
               FROM tirada t
               LEFT JOIN usuario u ON t.id_responsable = u.id
               LEFT JOIN maquina m ON t.id_maquina = m.id_maquina
-              LEFT JOIN tirada_operadores to_op ON t.id_tirada = to_op.id_tirada
-              LEFT JOIN usuario op ON to_op.id_operador = op.id
-              WHERE t.id_tirada = ?
-              GROUP BY t.id_tirada";
+              LEFT JOIN (
+                  SELECT 
+                      to_op.id_tirada,
+                      GROUP_CONCAT(CONCAT(op.nombre, ' ', COALESCE(op.appaterno, '')) SEPARATOR ', ') as operadores,
+                      GROUP_CONCAT(op.id SEPARATOR ',') as operadores_ids
+                  FROM tirada_operadores to_op 
+                  LEFT JOIN usuario op ON to_op.id_operador = op.id
+                  GROUP BY to_op.id_tirada
+              ) op_list ON t.id_tirada = op_list.id_tirada
+              WHERE t.id_tirada = ?";
 
     $stmt = $mysqli->prepare($query);
     $stmt->bind_param('i', $id_tirada);
@@ -303,11 +406,17 @@ function finalizarTirada($mysqli)
                 $id_producto = $produccion['producto'];
                 $cantidad = $produccion['cantidad'];
 
-                // Insertar en tirada_individual
-                $query_individual = "INSERT INTO tirada_individual (id_tirada, id_producto, cantidad_tirada_individual, id_operador) VALUES (?, ?, ?, ?)";
-                $stmt = $mysqli->prepare($query_individual);
-                $stmt->bind_param('iiii', $id_tirada, $id_producto, $cantidad, $id_operador);
-                $stmt->execute();
+                // Verificar si la tabla tirada_individual existe
+                $query_check_table = "SHOW TABLES LIKE 'tirada_individual'";
+                $result_check = $mysqli->query($query_check_table);
+
+                if ($result_check->num_rows > 0) {
+                    // Insertar en tirada_individual
+                    $query_individual = "INSERT INTO tirada_individual (id_tirada, id_producto, cantidad_tirada_individual, id_operador) VALUES (?, ?, ?, ?)";
+                    $stmt = $mysqli->prepare($query_individual);
+                    $stmt->bind_param('iiii', $id_tirada, $id_producto, $cantidad, $id_operador);
+                    $stmt->execute();
+                }
 
                 // Acumular para tirada_detalle
                 if (!isset($productos_totales[$id_producto])) {
@@ -338,15 +447,21 @@ function finalizarTirada($mysqli)
         $stmt->bind_param('i', $tirada_info['id_maquina']);
         $stmt->execute();
 
-        // Actualizar stock (opcional - puedes personalizar esta lógica)
-        foreach ($productos_totales as $id_producto => $cantidad_total) {
-            $query_stock = "UPDATE stock_almacen SET 
-                           cantidad = cantidad + ?,
-                           fecha_ultima_actualizacion = CURRENT_TIMESTAMP
-                           WHERE id_producto = ?";
-            $stmt = $mysqli->prepare($query_stock);
-            $stmt->bind_param('ii', $cantidad_total, $id_producto);
-            $stmt->execute();
+        // Actualizar stock si la tabla existe
+        $query_check_stock = "SHOW TABLES LIKE 'stock_almacen'";
+        $result_check_stock = $mysqli->query($query_check_stock);
+
+        if ($result_check_stock->num_rows > 0) {
+            foreach ($productos_totales as $id_producto => $cantidad_total) {
+                $query_stock = "INSERT INTO stock_almacen (id_producto, cantidad, fecha_ultima_actualizacion) 
+                               VALUES (?, ?, CURRENT_TIMESTAMP)
+                               ON DUPLICATE KEY UPDATE 
+                               cantidad = cantidad + ?,
+                               fecha_ultima_actualizacion = CURRENT_TIMESTAMP";
+                $stmt = $mysqli->prepare($query_stock);
+                $stmt->bind_param('iii', $id_producto, $cantidad_total, $cantidad_total);
+                $stmt->execute();
+            }
         }
 
         $mysqli->commit();
