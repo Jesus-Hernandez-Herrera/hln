@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Gestión de Tiradas</title>
+    <title>Gestión de Tiradas</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
@@ -125,6 +125,36 @@
         .operador-item:hover::after {
             opacity: 1;
         }
+
+        /* Estilos para las tablas */
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            color: white;
+            padding: 15px;
+            border-radius: 8px 8px 0 0;
+            margin: 0;
+            font-size: 1.1em;
+        }
+
+        .table-responsive {
+            border-radius: 0 0 8px 8px;
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .operadores-disponibles,
+            .operadores-seleccionados {
+                min-height: 150px;
+                max-height: 200px;
+            }
+        }
     </style>
 </head>
 
@@ -138,165 +168,140 @@
             </div>
         </div>
 
-        <!-- Pestañas -->
-        <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="registro-tab" data-bs-toggle="tab" data-bs-target="#registro"
-                    type="button" role="tab">
-                    <i class="fas fa-plus"></i> Registrar Tirada
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="listado-tab" data-bs-toggle="tab" data-bs-target="#listado" type="button"
-                    role="tab">
-                    <i class="fas fa-list"></i> Tiradas en Proceso
-                </button>
-            </li>
-        </ul>
-
-        <div class="tab-content" id="myTabContent">
-            <!-- Tab Registro de Tiradas -->
-            <div class="tab-pane fade show active" id="registro" role="tabpanel">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5><i class="fas fa-clipboard-list"></i> Registrar Nueva Tirada</h5>
-                            </div>
-                            <div class="card-body">
-                                <form id="formTirada">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="fecha_inicio" class="form-label">Fecha de Inicio</label>
-                                                <input type="datetime-local" class="form-control" id="fecha_inicio"
-                                                    name="fecha_inicio" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="fecha_final" class="form-label">Fecha Final</label>
-                                                <input type="datetime-local" class="form-control" id="fecha_final"
-                                                    name="fecha_final" required>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="responsable" class="form-label">Responsable</label>
-                                                <select class="form-select" id="responsable" name="responsable"
-                                                    required>
-                                                    <option value="">Seleccionar responsable...</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="maquina" class="form-label">Máquina</label>
-                                                <select class="form-select" id="maquina" name="maquina" required>
-                                                    <option value="">Seleccionar máquina...</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h6><i class="fas fa-users"></i> Operadores Disponibles</h6>
-                                            <div class="operadores-disponibles" id="operadores-disponibles">
-                                                <p class="text-muted text-center">Cargando operadores...</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <h6><i class="fas fa-user-check"></i> Operadores Seleccionados</h6>
-                                            <div class="operadores-seleccionados" id="operadores-seleccionados">
-                                                <p class="text-muted text-center">Arrastra operadores aquí o haz doble
-                                                    clic</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="text-center mt-4">
-                                        <button type="submit" class="btn btn-gradient btn-lg">
-                                            <i class="fas fa-save"></i> Registrar Tirada
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+        <div class="row">
+            <!-- Formulario de Registro (Izquierda) -->
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="fas fa-clipboard-list"></i> Registrar Nueva Tirada</h5>
                     </div>
-
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-header">
-                                <h6><i class="fas fa-info-circle"></i> Instrucciones</h6>
-                            </div>
-                            <div class="card-body">
-                                <ul class="list-unstyled">
-                                    <li class="mb-2">
-                                        <i class="fas fa-hand-rock text-primary"></i>
-                                        <strong>Arrastra:</strong> Mantén presionado y arrastra operadores entre
-                                        columnas
-                                    </li>
-                                    <li class="mb-2">
-                                        <i class="fas fa-mouse-pointer text-success"></i>
-                                        <strong>Doble clic:</strong> Haz doble clic para mover operadores rápidamente
-                                    </li>
-                                    <li class="mb-2">
-                                        <i class="fas fa-check text-info"></i>
-                                        <strong>Responsable:</strong> Selecciona el responsable de la tirada
-                                    </li>
-                                    <li class="mb-2">
-                                        <i class="fas fa-cog text-warning"></i>
-                                        <strong>Máquina:</strong> Elige la máquina para la producción
-                                    </li>
-                                    <li class="mb-2">
-                                        <i class="fas fa-calendar text-danger"></i>
-                                        <strong>Fechas:</strong> Define el período de la tirada
-                                    </li>
-                                </ul>
-
-                                <div class="alert alert-info mt-3">
-                                    <small>
-                                        <i class="fas fa-lightbulb"></i>
-                                        <strong>Tip:</strong> Puedes seleccionar múltiples operadores para la misma
-                                        tirada.
-                                    </small>
+                    <div class="card-body">
+                        <form id="formTirada">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="fecha_inicio" class="form-label">Fecha de Inicio</label>
+                                        <input type="datetime-local" class="form-control" id="fecha_inicio"
+                                            name="fecha_inicio" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="fecha_final" class="form-label">Fecha Final</label>
+                                        <input type="datetime-local" class="form-control" id="fecha_final"
+                                            name="fecha_final" required>
+                                    </div>
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="responsable" class="form-label">Responsable</label>
+                                        <select class="form-select" id="responsable" name="responsable" required>
+                                            <option value="">Seleccionar responsable...</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="maquina" class="form-label">Máquina</label>
+                                        <select class="form-select" id="maquina" name="maquina" required>
+                                            <option value="">Seleccionar máquina...</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6><i class="fas fa-users"></i> Operadores Disponibles</h6>
+                                    <div class="operadores-disponibles" id="operadores-disponibles">
+                                        <p class="text-muted text-center">Cargando operadores...</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6><i class="fas fa-user-check"></i> Operadores Seleccionados</h6>
+                                    <div class="operadores-seleccionados" id="operadores-seleccionados">
+                                        <p class="text-muted text-center">Arrastra operadores aquí o haz doble clic</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-gradient btn-lg">
+                                    <i class="fas fa-save"></i> Registrar Tirada
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- Instrucciones -->
+                        <div class="mt-4 p-3 bg-light rounded">
+                            <h6><i class="fas fa-info-circle"></i> Instrucciones</h6>
+                            <ul class="list-unstyled small">
+                                <li><i class="fas fa-hand-rock text-primary"></i> <strong>Arrastra:</strong> Mantén presionado y arrastra operadores</li>
+                                <li><i class="fas fa-mouse-pointer text-success"></i> <strong>Doble clic:</strong> Haz doble clic para mover operadores</li>
+                                <li><i class="fas fa-check text-info"></i> <strong>Responsable:</strong> Selecciona el responsable de la tirada</li>
+                                <li><i class="fas fa-cog text-warning"></i> <strong>Máquina:</strong> Elige la máquina para la producción</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Tab Listado de Tiradas -->
-            <div class="tab-pane fade" id="listado" role="tabpanel">
-                <div class="card">
-                    <div class="card-header">
-                        <h5><i class="fas fa-cogs"></i> Tiradas en Proceso</h5>
+            <!-- Tiradas en Proceso (Derecha) -->
+            <div class="col-lg-6">
+                <div class="table-container">
+                    <h5 class="section-title">
+                        <i class="fas fa-cogs"></i> Tiradas en Proceso
+                    </h5>
+                    <div class="table-responsive">
+                        <table id="tablaTiradas" class="table table-striped table-hover mb-0">
+                            <!-- Cambiar esto en la tabla #tablaTiradas -->
+<thead class="table-dark">
+    <tr>
+        <th>ID</th>
+        <th>Fecha Inicio</th>
+        <th>Responsable</th>
+        <th>Máquina</th>
+        <th>Operadores</th>
+        <th>Acciones</th>
+    </tr>
+</thead>
+                            <tbody>
+                                <!-- Los datos se cargarán via AJAX -->
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table id="tablaTiradas" class="table table-striped table-hover">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Fecha Inicio</th>
-                                        <th>Fecha Final</th>
-                                        <th>Responsable</th>
-                                        <th>Máquina</th>
-                                        <th>Operadores</th>
-                                        <th>Estado</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Los datos se cargarán via AJAX -->
-                                </tbody>
-                            </table>
-                        </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tiradas Finalizadas (Abajo) -->
+        <div class="row">
+            <div class="col-12">
+                <div class="table-container">
+                    <h5 class="section-title">
+                        <i class="fas fa-check-circle"></i> Tiradas Finalizadas
+                    </h5>
+                    <div class="table-responsive">
+                        <table id="tablaTiradasFinalizadas" class="table table-striped table-hover mb-0">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Fecha Inicio</th>
+                                    <th>Fecha Final</th>
+                                    <th>Responsable</th>
+                                    <th>Máquina</th>
+                                    <th>Operadores</th>
+                                    <th>Productos Producidos</th>
+                                    <th>Total Producido</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Los datos se cargarán via AJAX -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

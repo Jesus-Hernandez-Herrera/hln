@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    // Inicializar DataTable
+    // Inicializar DataTable para tiradas en curso
     $('#tablaTiradas').DataTable({
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
@@ -9,29 +9,18 @@ $(document).ready(function() {
             "type": "POST",
             "data": {
                 action: 'listar_tiradas'
+            },
+            "dataSrc": function(json) {
+                console.log('Datos recibidos tiradas en curso:', json);
+                return json.data || [];
             }
         },
-        "columns": [{
-                "data": "id_tirada"
-            },
-            {
-                "data": "fecha_inicio"
-            },
-            {
-                "data": "fecha_final"
-            },
-            {
-                "data": "responsable"
-            },
-            {
-                "data": "maquina"
-            },
-            {
-                "data": "operadores"
-            },
-            {
-                "data": "estatus_tirada"
-            },
+        "columns": [
+            {"data": "id_tirada"},
+            {"data": "fecha_inicio"},
+            {"data": "responsable"},
+            {"data": "maquina"},
+            {"data": "operadores"},
             {
                 "data": null,
                 "render": function(data, type, row) {
@@ -40,22 +29,47 @@ $(document).ready(function() {
                         ')"><i class="fas fa-clipboard-check"></i> Capturar Producción</button>';
                 }
             }
-        ]
+        ],
+        "order": [[0, 'desc']],
+        "pageLength": 10,
+        "responsive": true
+    });
+
+    // Inicializar DataTable para tiradas finalizadas
+    $('#tablaTiradasFinalizadas').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+        },
+        "ajax": {
+            "url": "backend.php",
+            "type": "POST",
+            "data": {
+                action: 'listar_tiradas_finalizadas'
+            },
+            "dataSrc": function(json) {
+                console.log('Datos recibidos tiradas finalizadas:', json);
+                return json.data || [];
+            }
+        },
+        "columns": [
+            {"data": "id_tirada"},
+            {"data": "fecha_inicio"},
+            {"data": "fecha_final"},
+            {"data": "responsable"},
+            {"data": "maquina"},
+            {"data": "operadores"},
+            {"data": "productos_producidos"},
+            {"data": "total_producido"}
+        ],
+        "order": [[0, 'desc']],
+        "pageLength": 10,
+        "responsive": true
     });
 
     // Cargar datos iniciales
     cargarResponsables();
     cargarMaquinas();
-    cargarOperadores();
-
-    // Configurar fechas por defecto
-    const ahora = new Date();
-    const fechaInicio = new Date(ahora.getTime() - ahora.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
-    const fechaFinal = new Date(ahora.getTime() + 8 * 60 * 60 * 1000 - ahora.getTimezoneOffset() * 60000)
-        .toISOString().slice(0, 16);
-
-    $('#fecha_inicio').val(fechaInicio);
-    $('#fecha_final').val(fechaFinal);
+    cargarOperadores();   
 
     // Configurar drag and drop desde el inicio
     setupDragAndDrop();
@@ -89,6 +103,7 @@ $(document).ready(function() {
             processData: false,
             contentType: false,
             success: function(response) {
+                console.log('Respuesta del servidor:', response);
                 const result = JSON.parse(response);
                 if (result.success) {
                     Swal.fire({
@@ -104,16 +119,16 @@ $(document).ready(function() {
                     $('#operadores-seleccionados').html(
                         '<p class="text-muted text-center">Arrastra operadores aquí o haz doble clic</p>'
                     );
+                    
+                    // Recargar datos
                     cargarOperadores();
+                    cargarMaquinas();
 
-                    // Actualizar fechas
-                    $('#fecha_inicio').val(fechaInicio);
-                    $('#fecha_final').val(fechaFinal);
+                    
 
-                    // Recargar tabla si está en la pestaña de listado
-                    if ($('#listado-tab').hasClass('active')) {
-                        $('#tablaTiradas').DataTable().ajax.reload();
-                    }
+                    // Recargar ambas tablas
+                    $('#tablaTiradas').DataTable().ajax.reload();
+                    $('#tablaTiradasFinalizadas').DataTable().ajax.reload();
                 } else {
                     Swal.fire({
                         icon: 'error',
@@ -122,11 +137,12 @@ $(document).ready(function() {
                     });
                 }
             },
-            error: function() {
+            error: function(xhr, status, error) {
+                console.error('Error AJAX:', error);
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Error al procesar la solicitud'
+                    text: 'Error al procesar la solicitud: ' + error
                 });
             }
         });
@@ -278,6 +294,7 @@ function capturarProduccion(id_tirada) {
         action: 'obtener_tirada',
         id_tirada: id_tirada
     }, function(response) {
+        console.log('Datos de la tirada:', response);
         const tirada = JSON.parse(response);
 
         Swal.fire({
@@ -290,7 +307,7 @@ function capturarProduccion(id_tirada) {
                         
                         <div class="mb-3">
                             <label class="form-label">Tipo de Captura:</label>
-                            <select id="tipo_captura" class="form-select">
+                            <select id="tipo_captura" class="form-select2">
                                 <option value="general">Captura General</option>
                                 <option value="individual">Captura Individual por Operador</option>
                             </select>
@@ -298,7 +315,7 @@ function capturarProduccion(id_tirada) {
                         
                         <div id="captura_general" class="mb-3">
                             <label class="form-label">Producto:</label>
-                            <select id="producto_general" class="form-select mb-2">
+                            <select id="producto_general" class="form-select2 mb-2">
                                 <option value="">Seleccionar producto...</option>
                             </select>
                             <label class="form-label">Cantidad:</label>
@@ -307,11 +324,11 @@ function capturarProduccion(id_tirada) {
                         
                         <div id="captura_individual" style="display:none;" class="mb-3">
                             <label class="form-label">Operador:</label>
-                            <select id="operador_individual" class="form-select mb-2">
+                            <select id="operador_individual" class="form-select2 mb-2">
                                 <option value="">Seleccionar operador...</option>
                             </select>
                             <label class="form-label">Producto:</label>
-                            <select id="producto_individual" class="form-select mb-2">
+                            <select id="producto_individual" class="form-select2 mb-2">
                                 <option value="">Seleccionar producto...</option>
                             </select>
                             <label class="form-label">Cantidad:</label>
@@ -419,6 +436,7 @@ function capturarProduccion(id_tirada) {
                     id_tirada: id_tirada,
                     producciones: JSON.stringify(result.value.producciones)
                 }, function(response) {
+                    console.log('Respuesta finalizar tirada:', response);
                     const result = JSON.parse(response);
                     if (result.success) {
                         Swal.fire({
@@ -428,7 +446,14 @@ function capturarProduccion(id_tirada) {
                             timer: 2000,
                             showConfirmButton: false
                         });
+                        
+                        // Recargar ambas tablas
                         $('#tablaTiradas').DataTable().ajax.reload();
+                        $('#tablaTiradasFinalizadas').DataTable().ajax.reload();
+                        
+                        // Recargar operadores y máquinas disponibles
+                        cargarOperadores();
+                        cargarMaquinas();
                     } else {
                         Swal.fire({
                             icon: 'error',
@@ -457,6 +482,11 @@ function cargarProductos() {
 }
 
 function cargarOperadoresTirada(operadores_ids) {
+    if (!operadores_ids || operadores_ids === '') {
+        $('#operador_individual').html('<option value="">No hay operadores asignados</option>');
+        return;
+    }
+
     const ids = operadores_ids.split(',');
     let options = '<option value="">Seleccionar operador...</option>';
 
@@ -472,8 +502,3 @@ function cargarOperadoresTirada(operadores_ids) {
         $('#operador_individual').html(options);
     });
 }
-
-// Recargar tabla cuando se cambie a la pestaña de listado
-$('#listado-tab').on('shown.bs.tab', function() {
-    $('#tablaTiradas').DataTable().ajax.reload();
-});

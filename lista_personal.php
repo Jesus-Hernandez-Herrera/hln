@@ -669,16 +669,22 @@ include 'datatable/datateibol.php';
                     </a>
                 </td>
               <td>' .$rowdasp['rol'].'</td>
-              <td>
-                <form  method="POST" style="margin-block-end: 0;">
-                    <input type="hidden"  name="idEditUsu" value="' .$rowdasp["idUsu"].'">
-                    <input type="submit" name="editarUsu"  class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#modalFormEdit" value="Modificar" >
-                </form>
-                <form  method="POST" style="margin-block-end: 0;">
-                  <input type="hidden" name="idbUsu" value="'.base64_encode($rowdasp["idUsu"]).'">
-                  <input type="submit" name="bajaUsu" value="Baja" style="border-radius: 5px; background: #a91111; color: #fff; padding: 8px 10px; font-weight: bold; border: #a91111; cursor: pointer;">
-                </form>
-              </td>
+              
+              <td style="white-space: nowrap; padding: 8px; text-align: center;">
+    <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; align-items: center;">
+        <form method="POST" style="margin: 0;">
+            <input type="hidden" name="idEditUsu" value="1">
+            <input type="submit" name="editarUsu" value="Modificar"
+                style="border-radius: 5px; background: #007bff; color: #fff; padding: 8px 12px; font-weight: bold; border: none; cursor: pointer;">
+        </form>
+        <form method="POST" style="margin: 0;">
+            <input type="hidden" name="idbUsu" value="MQ==">
+            <input type="submit" name="bajaUsu" value="Baja"
+                style="border-radius: 5px; background: #a91111; color: #fff; padding: 8px 12px; font-weight: bold; border: none; cursor: pointer;">
+        </form>
+    </div>
+</td>
+
             </tr>';
                 }
             }

@@ -103,7 +103,7 @@ $result = $conexion->query($sql);
             <?php if ($result->num_rows > 0): ?>
                 <?php while ($row = $result->fetch_assoc()): ?>
                     <tr>
-                        <td><?php echo $row['id_maquinaria']; ?></td>
+                        <td><?php echo $row['id_maquina']; ?></td>
                         <td><?php echo $row['estado_maquina']; ?></td>
                         <td><?php echo $row['nombre_maquina']; ?></td>
                         <td><?php echo $row['modelo']; ?></td>

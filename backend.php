@@ -168,8 +168,7 @@ function registrarTirada($mysqli)
     $mysqli->begin_transaction();
 
     try {
-        $fecha_inicio = $_POST['fecha_inicio'];
-        $fecha_final = $_POST['fecha_final'];
+        
         $id_responsable = $_POST['responsable'];
         $id_maquina = $_POST['maquina'];
         $operadores = json_decode($_POST['operadores'], true);
@@ -205,9 +204,9 @@ function registrarTirada($mysqli)
         }
 
         // Insertar la tirada
-        $query_tirada = "INSERT INTO tirada (fecha_inicio, fecha_final, estatus_tirada, id_responsable, id_maquina) VALUES (?, ?, 'En curso', ?, ?)";
+        $query_tirada = "INSERT INTO tirada (fecha_inicio, fecha_final, estatus_tirada, id_responsable, id_maquina) VALUES (now(), now(), 'En curso', ?, ?)";
         $stmt = $mysqli->prepare($query_tirada);
-        $stmt->bind_param('ssii', $fecha_inicio, $fecha_final, $id_responsable, $id_maquina);
+        $stmt->bind_param('ii', $id_responsable, $id_maquina);
         $stmt->execute();
 
         $id_tirada = $mysqli->insert_id;
@@ -240,7 +239,7 @@ function registrarTirada($mysqli)
 
 function listarTiradas($mysqli)
 {
-    // Consulta simplificada y más robusta
+    // Consulta corregida para mostrar solo tiradas en curso
     $query = "SELECT 
                 t.id_tirada,
                 DATE_FORMAT(t.fecha_inicio, '%d/%m/%Y %H:%i') as fecha_inicio,
@@ -268,7 +267,7 @@ function listarTiradas($mysqli)
     $result = $mysqli->query($query);
 
     if (!$result) {
-        echo json_encode(['data' => [], 'error' => 'Error en la consulta: ' . $mysqli->error]);
+        echo json_encode(['success' => false, 'data' => [], 'error' => 'Error en la consulta: ' . $mysqli->error]);
         return;
     }
 
@@ -277,11 +276,12 @@ function listarTiradas($mysqli)
         $tiradas[] = $row;
     }
 
-    echo json_encode(['data' => $tiradas]);
+    echo json_encode(['success' => true, 'data' => $tiradas]);
 }
 
 function listarTiradasFinalizadas($mysqli)
 {
+    // Consulta corregida para mostrar solo tiradas finalizadas
     $query = "SELECT 
                 t.id_tirada,
                 DATE_FORMAT(t.fecha_inicio, '%d/%m/%Y %H:%i') as fecha_inicio,
@@ -318,7 +318,7 @@ function listarTiradasFinalizadas($mysqli)
     $result = $mysqli->query($query);
 
     if (!$result) {
-        echo json_encode(['data' => [], 'error' => 'Error en la consulta: ' . $mysqli->error]);
+        echo json_encode(['success' => false, 'data' => [], 'error' => 'Error en la consulta: ' . $mysqli->error]);
         return;
     }
 
@@ -327,7 +327,7 @@ function listarTiradasFinalizadas($mysqli)
         $tiradas[] = $row;
     }
 
-    echo json_encode(['data' => $tiradas]);
+    echo json_encode(['success' => true, 'data' => $tiradas]);
 }
 
 function obtenerTirada($mysqli)
@@ -412,7 +412,7 @@ function finalizarTirada($mysqli)
 
                 if ($result_check->num_rows > 0) {
                     // Insertar en tirada_individual
-                    $query_individual = "INSERT INTO tirada_individual (id_tirada, id_producto, cantidad_tirada_individual, id_operador) VALUES (?, ?, ?, ?)";
+                    $query_individual = "INSERT INTO tirada_individual (id_tirada, id_producto, cantidad, id_operador) VALUES (?, ?, ?, ?)";
                     $stmt = $mysqli->prepare($query_individual);
                     $stmt->bind_param('iiii', $id_tirada, $id_producto, $cantidad, $id_operador);
                     $stmt->execute();
@@ -436,7 +436,7 @@ function finalizarTirada($mysqli)
         }
 
         // Actualizar estado de la tirada
-        $query_update_tirada = "UPDATE tirada SET estatus_tirada = 'Finalizada' WHERE id_tirada = ?";
+        $query_update_tirada = "UPDATE tirada SET estatus_tirada = 'Finalizada', fecha_final=now() WHERE id_tirada = ?";
         $stmt = $mysqli->prepare($query_update_tirada);
         $stmt->bind_param('i', $id_tirada);
         $stmt->execute();

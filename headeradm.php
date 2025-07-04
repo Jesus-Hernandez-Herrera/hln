@@ -103,6 +103,7 @@ if ($bandera == 0) {
 <meta charset="UTF-8">
 
 <style>
+    
     .menuencabezadosty {
         text-align: center;
         font-weight: bold;
