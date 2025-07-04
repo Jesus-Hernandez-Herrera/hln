@@ -189,7 +189,7 @@ include 'datatable/datateibol.php';
         <div class="row">
             <!-- Formulario de Registro (Izquierda) -->
             <div class="col-lg-6">
-                <div class="card">
+                <div>
                     <div class="card-header">
                         <h5><i class="fas fa-clipboard-list"></i> Registrar Nueva Tirada</h5>
                     </div>

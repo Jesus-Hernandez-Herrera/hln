@@ -1,10 +1,28 @@
-1 .- porque tengo tiradas "En curso" y no aparecen en las tiradas en curso y las que terminaron no me las muestra siquiera
 
-2 .- puedes ayudarme tambien a quitar las pestañas (Registrar Tirada y Tiradas en Proceso) quiero todo en la misma ventana, el formulario de registro de tirada  a su derecha el listado de tiradas en curso y abajo las tiradas que ya terminaron con su informacion de lo producido en la tirada.
+bdd.php:
+<?php
+$conexion = new mysqli("localhost", "root", "", "hln");
+mysqli_set_charset($conexion,"utf8");
+$conexion->query("SET NAMES 'utf8'");
+?>
 
- 
+quiero que me des una interfaz donde pueda ver que vehiculos su kilometraje y que vehiculos tienen mantenimientos pendientes estoy usando php y mysqli
 
-
-
-
-claude: https://claude.ai/chat/e4df62c0-b4a0-4f14-baf6-a42933522469
+SELECT 
+id_vehiculo, autoincrement
+ modelo, lista las mas comunes
+ placa_serial, la placa 
+ descripcion, breve descripcion
+kilometraje, kilometraje actual
+kilometros_mantenimiento, kilometros para dar mantenimiento
+cant_combustible, cantidad de combustible selector del 0 al 100%
+tipo_combustible, lista los mas comunes
+status, En ruta, Mantenimiento, Descompuesto, Corralon, Estacionado
+ tipo_vehiculo,  Camioneta, Camion, Autobus, Camion de Carga  
+ capacidad_kg_carga, capacidad de carga en kg
+ frecuencia_dias_mantenimiento, frecuencia de mantenimiento en dias
+ fechaultimimantenimiento, ultima fecha de mantenimiento
+ alturacaja_vehiculo, altura de la caja
+ longitudcaja_vehiculo, longitud de la caja
+ anchocaja_vehiculo , ancho de la caja
+ FROM vehiculo

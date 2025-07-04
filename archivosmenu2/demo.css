@@ -1673,6 +1673,58 @@ main .thumb.active {
     content: 'cruelty_free'
 }
 
+.hc-offcanvas-nav li.local_shipping>.nav-item-wrapper .nav-item-link::before {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    text-indent: 0;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'liga';
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    margin-right: 15px;
+    font-size: 23px;
+    vertical-align: top;
+    speak: never;
+    content: 'local_shipping'
+}
+
+.hc-offcanvas-nav li.fact_check>.nav-item-wrapper .nav-item-link::before {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    text-indent: 0;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'liga';
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    margin-right: 15px;
+    font-size: 23px;
+    vertical-align: top;
+    speak: never;
+    content: 'fact_check'
+}
+
 .hc-offcanvas-nav li.fact_check>.nav-item-wrapper .nav-item-link::before {
     font-family: 'Material Icons';
     font-weight: normal;
@@ -2448,7 +2500,7 @@ main .thumb.active {
     speak: never;
     content: 'task'
 }
-.hc-offcanvas-nav li.fact_check>.nav-item-wrapper .nav-item-link::before {
+.hc-offcanvas-nav li.factory>.nav-item-wrapper .nav-item-link::before {
     font-family: 'Material Icons';
     font-weight: normal;
     font-style: normal;
@@ -2471,7 +2523,7 @@ main .thumb.active {
     font-size: 23px;
     vertical-align: top;
     speak: never;
-    content: 'fact_check'
+    content: 'factory'
 }
 .hc-offcanvas-nav li.how_to_reg>.nav-item-wrapper .nav-item-link::before {
     font-family: 'Material Icons';
@@ -2648,6 +2700,35 @@ main .thumb.active {
     speak: never;
     content: 'folder_open'
 }
+
+
+
+.hc-offcanvas-nav li.precision_manufacturing>.nav-item-wrapper .nav-item-link::before {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    text-indent: 0;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'liga';
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    margin-right: 15px;
+    font-size: 23px;
+    vertical-align: top;
+    speak: never;
+    content: 'precision_manufacturing'
+}
+
 .hc-offcanvas-nav li.edit_document>.nav-item-wrapper .nav-item-link::before {
     font-family: 'Material Icons';
     font-weight: normal;

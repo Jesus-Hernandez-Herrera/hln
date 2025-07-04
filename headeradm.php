@@ -103,7 +103,25 @@ if ($bandera == 0) {
 <meta charset="UTF-8">
 
 <style>
-    
+    .form-select2 {
+    display: block;
+    width: 100%;
+    padding: .375rem 2.25rem .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    /* background-image: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e); */
+    background-repeat: no-repeat;
+    background-position: right .75rem center;
+    background-size: 16px 12px;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
     .menuencabezadosty {
         text-align: center;
         font-weight: bold;
@@ -736,11 +754,15 @@ if ($domain == '10.10.10.207') {
                             <li class="admin_panel_settings">
                                 <a href="roles.php">Roles de usuario</a>
                             </li>
-                            <li class="admin_panel_settings">
+                            <li class="precision_manufacturing">
                                 <a href="maquinas.php">Maquinaria</a>
                             </li>
-                            <li class="admin_panel_settings">
+                            <li class="factory">
                                 <a href="ciclodeproduccion.php">Producción</a>
+                            </li>
+                            
+                            <li class="local_shipping">
+                                <a href="vehiculos.php">Parque vehicular</a>
                             </li>
                             <li class="cruelty_free">
                                 <a href="testeosderoles.php">Testeos de roles</a>
